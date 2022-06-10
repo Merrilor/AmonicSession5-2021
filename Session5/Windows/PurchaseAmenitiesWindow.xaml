@@ -1,0 +1,191 @@
+﻿<Window x:Class="Session5.PurchaseAmenitiesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Session5"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="550"
+        Width="800"
+        MinHeight="550"
+        MinWidth="850">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="2.5*" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Button
+            x:Name="AmenitiesReportButton"
+            Grid.Column="2"
+            Content="Amenities report"
+            Click="AmenitiesReportButton_Click"
+            />
+
+
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2">
+
+            <TextBlock Margin="10 0 0 0"
+                       Text="Booking reference:" />
+
+            <TextBox x:Name="BookingReferenceTextBox"
+                     Margin="10 0 0 0"
+                     Width="100"
+                     Height="35"
+                     MaxLength="6" />
+
+            <Button x:Name="BookingReferenceSearchButton"
+                    Margin="10 0 0 0"
+                    Content="OK"
+                    Width="70"
+                    Click="BookingReferenceSearchButton_Click" />
+
+
+        </StackPanel>
+
+        <TextBlock Grid.Row="1"
+                   Grid.Column="0"
+                   Text="Choose your flights:" />
+
+        <ComboBox x:Name="FlightComboBox"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Width="Auto"
+                  >
+
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}, {1}-{2}, {3:d}, {4:hh':'mm}">
+                                <Binding Path="Schedules.FlightNumber" />
+                                <Binding Path="Schedules.Routes.Airports.IATACode" />
+                                <Binding Path="Schedules.Routes.Airports1.IATACode" />
+                                <Binding Path="Schedules.Date" />
+                                <Binding Path="Schedules.Time" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+
+        </ComboBox>
+
+        <Button x:Name="ShowAmenitiesButton"
+                Grid.Column="2"
+                Grid.Row="1"
+                Content="Show Amenities"
+                Click="ShowAmenitiesButton_Click" 
+                Height="30"
+                />
+
+        <!--Text="{Binding ElementName=FlightComboBox, Path=SelectedItem.Firstname}"-->
+        <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   Margin="10 0 0 0">
+
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}Full name: {0} {1}">
+                    <Binding ElementName="FlightComboBox"
+                             Path="SelectedItem.Firstname" />
+                    <Binding ElementName="FlightComboBox"
+                             Path="SelectedItem.Lastname" />
+                </MultiBinding>
+            </TextBlock.Text>
+
+        </TextBlock>
+
+
+        <TextBlock Grid.Row="2"
+                   Grid.Column="1"
+                   Text="{Binding ElementName=FlightComboBox,Path=SelectedItem.PassportNumber,StringFormat='{}Passport number: {0}'}" />
+
+
+        <TextBlock Grid.Row="3"
+                   Grid.Column="0"
+                   Text="{Binding ElementName=FlightComboBox,Path=SelectedItem.CabinTypes.Name,StringFormat='{}Your cabin class is: {0}'}"
+                   HorizontalAlignment="Left"
+                   Margin="10 0 0 0" />
+
+        <TextBlock Grid.Row="4"
+                   Grid.Column="1"
+                   VerticalAlignment="Bottom"
+                   Text="AMONIC Airlines Amenities" />
+
+        <WrapPanel Grid.Row="5"
+                   Grid.ColumnSpan="3"
+                   x:Name="AmenitiesWrapPanel"
+                   Orientation="Vertical"
+                   Margin="10">
+
+
+
+        </WrapPanel>
+
+
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="6"
+                    Grid.RowSpan="2">
+
+            <TextBlock Text="{Binding ItemSelectedPrice,StringFormat='{}Items selected: ${0}'}"
+                       Margin="10 10 0 0"
+                       HorizontalAlignment="Left" 
+                       x:Name="SelectedItemsPriceTextBlock"
+                       />
+
+            <TextBlock Text="{Binding TaxesPrice,StringFormat='{}Duties and taxes: ${0}'}"
+                       Margin="10 10 0 0"
+                       HorizontalAlignment="Left" 
+                       x:Name="TaxesPriceTextBlock"
+                       />
+
+            <TextBlock Text="{Binding TotalPayable, StringFormat='{}Total payable: ${0}'}"
+                       Margin="10 10 0 0"
+                       HorizontalAlignment="Left"
+                       x:Name="TotalPayableTextBlock"
+                       />
+
+
+        </StackPanel>
+
+        <Button 
+            x:Name="SaveButton"
+            Grid.Row="6"
+                Grid.Column="5"
+                Content="Save and confirm"
+                Width="Auto"
+                Padding="10" 
+              Click="SaveButton_Click"
+                />
+
+        <Button 
+            x:Name="ExitButton"
+            Grid.Row="7"
+                Grid.Column="5"
+                Background="Red"
+                Content="Exit" 
+                Click="ExitButton_Click"
+                />
+
+
+    </Grid>
+</Window>
